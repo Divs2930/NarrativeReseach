@@ -4,7 +4,7 @@ from tqdm import tqdm
 import pandas as pd
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
-from chrome_driver import ChromeDriver
+# from chrome_driver import ChromeDriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
@@ -151,10 +151,13 @@ def get_tweets_and_profile(username):
 
         try:
             for tweets_, links in tqdm(zip(tweets_from_tag, links_from_tag)):
-                if count>10:
+                if count>=500:
                     flag=False
                     break
                 else:
+                    
+                    
+                    
                     print(f'in loop {count} ---------------------------------')
                     
                 count+=1
@@ -242,6 +245,7 @@ def get_tweets_and_profile(username):
                     # except:
                     #     details['views_on_video'] = []
                     final.append(details)
+                    
 
                 except NoSuchElementException:
                     continue
@@ -264,7 +268,7 @@ def get_tweets_and_profile(username):
         
         except Exception as e:
             chrome_driver.close_window()
-
+    
     return final
 
 if __name__ == '__main__':
@@ -278,5 +282,6 @@ if __name__ == '__main__':
             os.mkdir(f'TWEETS/')
         
         final = get_tweets_and_profile(user)
+        
         user_tweets = pd.DataFrame(final)
         user_tweets.to_csv(f'./TWEETS/New_{user}.csv',index = False)
