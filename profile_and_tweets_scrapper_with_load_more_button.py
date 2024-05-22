@@ -273,7 +273,7 @@ def get_tweets_and_profile(username):
 
 if __name__ == '__main__':
 
-    user_list = ['RajeshAgrawal']
+    user_list = ['UKLabour']
     for user in user_list:
         
         if os.path.exists(f'TWEETS/'):
