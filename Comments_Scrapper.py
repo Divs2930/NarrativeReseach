@@ -130,7 +130,7 @@ def scrape_comments(tweet_url: str):
 
 if __name__ == '__main__':
     # read the tweet scrapped file to scraper comments for each of the tweet
-    path = 'D:/div/ML/Tatras/NarrativeReseach/TWEETS/final_rajesh.csv'
+    path = './TWEETS/final_rajesh.csv'
     save_dir_name = path.split("/")[-1].split(".")[0]
     user_df = pd.read_csv(path)
     data = user_df['link'].to_list()
@@ -143,11 +143,13 @@ if __name__ == '__main__':
         os.mkdir(save_dir_name)
     
     # ids_already_scraped_list = [item.split(".")[0] for item in os.listdir('arvind_kejriwal_comments/')]
+    print(len(data))
     for idx, link in enumerate(data):
         # if ids[idx] in ids_already_scraped_list:
-        #     continue
-        comments = scrape_comments(link)
-        chrome_driver.close()
-        pd.DataFrame(comments).to_csv(f'rajesh_agrawal_comments.csv',index = False)
+        # #     continue
+        # comments = scrape_comments(link)
+        # chrome_driver.close()
+        print(idx)
+        # pd.DataFrame(comments).to_csv(f'r{idx}/ajesh_agrawal_comments.csv',index = False)
     
   

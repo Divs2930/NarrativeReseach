@@ -53,6 +53,7 @@ except (NoSuchElementException, ElementClickInterceptedException):
     print("ERORR OCCURED")
     time.sleep(2)
 
+
 def get_tweets_and_profile(username):
     username=str(username)
     print(username,NITTER_URL)
@@ -151,14 +152,7 @@ def get_tweets_and_profile(username):
 
         try:
             for tweets_, links in tqdm(zip(tweets_from_tag, links_from_tag)):
-                if count>=500:
-                    flag=False
-                    break
-                else:
-                    
-                    
-                    
-                    print(f'in loop {count} ---------------------------------')
+                
                     
                 count+=1
                 try:
@@ -173,16 +167,7 @@ def get_tweets_and_profile(username):
                             image_links.append(img.get_attribute('href'))
                         details['images'] = image_links
                     except NoSuchElementException:
-                        details['images'] = []
-                    # try:
-                    #     videos_list = []
-                    #     videos_links = []
-                    #     list_of_videos = tweets_.find_elements(By.CLASS_NAME, 'gallery-video')
-                    #     for row in list_of_videos:
-                    #         if row:
-                    #             details['videos'] = True
-                    # except NoSuchElementException:
-                    #     details['videos'] = []    
+                        details['images'] = [] 
 
                     details['retweet_of'] = ''
                     details['handle_original_tweet'] = ''
@@ -240,6 +225,16 @@ def get_tweets_and_profile(username):
                     details['user'] = tweets_.find_element(By.CLASS_NAME,'fullname-and-username').find_element(By.CLASS_NAME,'fullname').text
                     details['username'] = tweets_.find_element(By.CLASS_NAME,'fullname-and-username').find_element(By.CLASS_NAME,'username').text
 
+                    
+                    DATE=details['time_elapsed'].split()
+                    print(DATE)
+                    if (DATE[0]==str('Jan') and DATE[1]==str('1,') and DATE[2]==str('2024')):
+                        flag=False
+                        print("BREAKING")
+                        break
+                    else:
+                        print(f'in loop {count} ---------------------------------')
+
                     # try:
                     #     details['views_on_video'] = stats[4].text
                     # except:
@@ -272,8 +267,18 @@ def get_tweets_and_profile(username):
     return final
 
 if __name__ == '__main__':
+    user_list = ['XHNews']
 
-    user_list = ['UKLabour']
+    # user_list = ['XHNews',
+    #              'CCTV_Plus',
+    #              'CGTNOfficial',
+    #              'PDChina',
+    #              'globaltimesnews',
+    #              'ChinaDaily',
+    #              'chinaorgcn',
+    #              'SpokespersonCHN',
+    #              'zlj517',
+    #              'HuXijin_GT']
     for user in user_list:
         
         if os.path.exists(f'TWEETS/'):
@@ -284,4 +289,4 @@ if __name__ == '__main__':
         final = get_tweets_and_profile(user)
         
         user_tweets = pd.DataFrame(final)
-        user_tweets.to_csv(f'./TWEETS/New_{user}.csv',index = False)
+        user_tweets.to_csv(f'./TWEETS/CHINA/{user}.csv',index = False)
